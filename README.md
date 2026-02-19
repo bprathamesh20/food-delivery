@@ -56,7 +56,7 @@ API Gateway (9090) → Eureka (8761) → Microservices
 #### Option 1: Fully Local (No Docker) - For Development
 **Best if:** You have MySQL and Kafka running locally
 
-See [DEPLOYMENT_OPTIONS.md](DEPLOYMENT_OPTIONS.md) for detailed steps.
+See [DEPLOYMENT_OPTIONS.md](docs/DEPLOYMENT_OPTIONS.md) for detailed steps.
 
 #### Option 2: Hybrid (Local MySQL/Kafka + Docker Services) - ✅ RECOMMENDED
 **Best if:** You have MySQL and Kafka locally but want services in Docker
@@ -98,22 +98,22 @@ We provide **3 deployment options** to match your setup:
 | **Hybrid** ✅ | Local | Local | Docker | `docker-compose-local.yml` |
 | **Full Docker** | Docker | Docker | Docker | `docker-compose.yml` |
 
-**See [DEPLOYMENT_OPTIONS.md](DEPLOYMENT_OPTIONS.md) for complete guide.**
+**See [DEPLOYMENT_OPTIONS.md](docs/DEPLOYMENT_OPTIONS.md) for complete guide.**
 
 ---
 
 ## 📚 Documentation
 
 ### Integration Documentation
-- **[Deployment Options](DEPLOYMENT_OPTIONS.md)** - Choose your deployment method
-- **[Kafka KRaft Setup](KAFKA_KRAFT_SETUP.md)** - Kafka configuration guide
+- **[Deployment Options](docs/DEPLOYMENT_OPTIONS.md)** - Choose your deployment method
+- **[Kafka KRaft Setup](docs/KAFKA_KRAFT_SETUP.md)** - Kafka configuration guide
 - **[Integration Phase 1 Summary](INTEGRATION_PHASE1_SUMMARY.md)** - Infrastructure standardization
-- **[Integration Phase 2 Summary](INTEGRATION_PHASE2_SUMMARY.md)** - Kafka topic architecture
-- **[Integration Phase 3 Summary](INTEGRATION_PHASE3_SUMMARY.md)** - API Gateway & orchestration
-- **[Verification Report](INTEGRATION_VERIFICATION_REPORT.md)** - Complete system verification
+- **[Integration Phase 2 Summary](docs/INTEGRATION_PHASE2_SUMMARY.md)** - Kafka topic architecture
+- **[Integration Phase 3 Summary](docs/INTEGRATION_PHASE3_SUMMARY.md)** - API Gateway & orchestration
+- **[Verification Report](docs/INTEGRATION_VERIFICATION_REPORT.md)** - Complete system verification
 
 ### API Documentation
-- **[API Endpoints Documentation](API_ENDPOINTS_DOCUMENTATION.md)** - Complete API reference
+- **[API Endpoints Documentation](docs/API_ENDPOINTS_DOCUMENTATION.md)** - Complete API reference
 
 ---
 
