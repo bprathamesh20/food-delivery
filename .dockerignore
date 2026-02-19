@@ -1,0 +1,9 @@
+.git
+.metadata
+.vscode
+frontend
+*.zip
+*.bat
+*.ps1
+*.md
+*.txt

@@ -1,0 +1,272 @@
+#spring:
+#  application:
+#    name: deliveryService
+#  
+#  # Database Configuration
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/delivery_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+#    username: root
+#    password: 12345678
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 10
+#      minimum-idle: 5
+#      connection-timeout: 20000
+#  
+#  # JPA/Hibernate Configuration
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+#        format_sql: true
+#        use_sql_comments: true
+#    open-in-view: false
+#  
+#  # Kafka Configuration
+##  kafka:
+##    bootstrap-servers: localhost:9098
+##    consumer:
+##      group-id: delivery-service-group
+##      auto-offset-reset: earliest
+##      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+##      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+##      properties:
+##        spring.json.trusted.packages: "*"
+##    producer:
+##      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+##      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+##      properties:
+##        spring.json.add.type.headers: false
+#
+## Server Configuration
+#server:
+#  port: 8083
+#  servlet:
+#    context-path: /delivery-service
+#
+## JWT Configuration
+#jwt:
+#  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+#  expiration: 86400000  # 24 hours in milliseconds
+#
+#
+## Eureka Client Configuration
+##eureka:
+##  client:
+##    service-url:
+##      defaultZone: http://localhost:8761/eureka/
+##    register-with-eureka: true
+##    fetch-registry: true
+##  instance:
+##    prefer-ip-address: true
+##    instance-id: ${spring.application.name}:${random.value}
+#
+## Actuator Configuration
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health,info,metrics
+#  endpoint:
+#    health:
+#      show-details: always
+#
+## Logging Configuration
+#logging:
+#  level:
+#    com.fooddelivery.delivery: DEBUG
+#    org.springframework.kafka: INFO
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
+#
+#spring:
+#  application:
+#    name: deliveryService
+#
+#  # Database Configuration
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/delivery_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+#    username: root
+#    password: 12345678
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 10
+#      minimum-idle: 5
+#      connection-timeout: 20000
+#
+#  # JPA / Hibernate
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    open-in-view: false
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+#        format_sql: true
+#        use_sql_comments: true
+#
+#  # 🔴 Disable Service Discovery (IMPORTANT)
+#  cloud:
+#    discovery:
+#      enabled: false
+#
+## Server Configuration
+#server:
+#  port: 8083
+#  servlet:
+#    context-path: /delivery-service
+#
+## JWT Configuration
+#jwt:
+#  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+#  expiration: 86400000
+#
+## 🔴 Disable Eureka Client completely
+#eureka:
+#  client:
+#    enabled: false
+#
+## Actuator
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health,info,metrics
+#  endpoint:
+#    health:
+#      show-details: always
+#
+## Logging
+#logging:
+#  level:
+#    com.fooddelivery.delivery: DEBUG
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+#------------------------------------xxxxxxxxxxxx
+#spring:
+#  application:
+#    name: deliverService
+#  
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/delivery_db?createDatabaseIfNotExist=true
+#    username: root
+#    password: 12345678
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+#        format_sql: true
+#  
+#  # Kafka Configuration
+#  kafka:
+#    bootstrap-servers: localhost:9098
+#    consumer:
+#      group-id: delivery-service-group
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring.json.trusted.packages: "*"
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#
+### Server Configuration
+#server:
+#  port: 8083
+#  servlet:
+#    context-path: /delivery-service
+#
+#eureka:
+#  client:
+#    enabled: false
+#
+#logging:
+#  level:
+#    com.foodDelivery.deliveryService: DEBUG
+#    org.springframework.kafka: INFO
+
+
+spring:
+  application:
+    name: DELIVERY-SERVICE
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/delivery_db?createDatabaseIfNotExist=true
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  
+  kafka:
+    bootstrap-servers: localhost:9098
+    consumer:
+      group-id: delivery-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+### Server Configuration
+server:
+  port: 8083
+  servlet:
+    context-path: /delivery-service
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:c2VjdXJlLWp3dC1zZWNyZXQta2V5LWZvci1mb29kLWRlbGl2ZXJ5LW1pY3Jvc2VydmljZXMtMjAyNg==}
+  expiration: 86400000
+
+# Eureka Client Configuration
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.foodDelivery.deliveryService: DEBUG
+    org.springframework.kafka: INFO
+    org.springframework.security: DEBUG
+

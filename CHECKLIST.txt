@@ -1,0 +1,97 @@
+================================================================================
+                    FIX 403 ERROR - CHECKLIST
+================================================================================
+
+CURRENT ISSUE: Frontend getting 403 Forbidden on signup/login
+ROOT CAUSE: User Service not restarted with CORS configuration
+
+================================================================================
+                         FOLLOW THESE STEPS
+================================================================================
+
+[ ] Step 1: STOP User Service
+    - Go to terminal running User Service
+    - Press Ctrl+C
+    - Wait for it to stop completely
+
+[ ] Step 2: REBUILD User Service
+    - Open terminal
+    - Run: cd user-service-backend
+    - Run: mvn clean install
+    - Wait for "BUILD SUCCESS"
+
+[ ] Step 3: RESTART User Service
+    - In same terminal
+    - Run: mvn spring-boot:run
+    - Wait for "Started UserServiceApplication"
+
+[ ] Step 4: WAIT for Eureka Registration
+    - Wait 30 seconds
+    - Open: http://localhost:8761
+    - Verify: USER-SERVICE shows UP (green)
+
+[ ] Step 5: TEST Backend
+    - Run: curl -X POST http://localhost:9090/api/auth/signup -H "Content-Type: application/json" -d "{\"fullName\":\"Test\",\"email\":\"test@test.com\",\"phone\":\"1234567890\",\"password\":\"test123\",\"confirmPassword\":\"test123\"}"
+    - Expected: 200 OK with user data (NOT 403!)
+
+[ ] Step 6: RESTART Frontend
+    - Go to terminal running frontend
+    - Press Ctrl+C
+    - Run: npm run dev
+
+[ ] Step 7: CLEAR Browser Cache
+    - Press Ctrl+Shift+R
+    - OR open incognito window
+
+[ ] Step 8: TEST Signup
+    - Go to: http://localhost:5173
+    - Click "Sign Up"
+    - Fill in form
+    - Click "Sign Up"
+    - Expected: SUCCESS!
+
+================================================================================
+                         VERIFICATION
+================================================================================
+
+If all steps completed:
+✅ User Service rebuilt with CORS config
+✅ User Service running on port 8000
+✅ User Service registered in Eureka
+✅ Backend returns 200 OK (not 403)
+✅ Frontend restarted
+✅ Browser cache cleared
+✅ Signup works from frontend!
+
+================================================================================
+                      QUICK TEST COMMANDS
+================================================================================
+
+Test User Service Health:
+curl http://localhost:8000/api/auth/health
+
+Test CORS:
+curl -X OPTIONS http://localhost:9090/api/auth/signup -H "Origin: http://localhost:5173" -H "Access-Control-Request-Method: POST" -v
+
+Test Signup:
+curl -X POST http://localhost:9090/api/auth/signup -H "Content-Type: application/json" -d "{\"fullName\":\"Test\",\"email\":\"test@test.com\",\"phone\":\"1234567890\",\"password\":\"test123\",\"confirmPassword\":\"test123\"}"
+
+================================================================================
+                         FILES READY
+================================================================================
+
+✅ user-service-backend/src/main/java/com/fooddelivery/auth/config/CorsConfig.java
+✅ user-service-backend/src/main/java/com/fooddelivery/auth/config/SecurityConfig.java
+
+Just need to rebuild and restart!
+
+================================================================================
+                      NEED HELP?
+================================================================================
+
+See detailed guides:
+- APPLY_FIX_NOW.md - Step-by-step instructions
+- FRONTEND_403_FIX_COMPLETE.md - Complete troubleshooting
+- RESTART_FRONTEND.md - Frontend restart guide
+
+================================================================================

@@ -1,0 +1,178 @@
+# Docker Compose for Microservices Only
+# Use this when MySQL and Kafka are already running locally
+# MySQL: localhost:3306
+# Kafka: localhost:9098
+
+version: '3.8'
+
+services:
+  # ==================== SERVICE DISCOVERY ====================
+  
+  eureka-server:
+    build:
+      context: ./payments-service/eureka
+      dockerfile: Dockerfile
+    container_name: food-delivery-eureka
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - food-delivery-network
+
+  # ==================== MICROSERVICES ====================
+  
+  user-service:
+    build:
+      context: .
+      dockerfile: user-service-backend/Dockerfile
+    container_name: food-delivery-user-service
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/fooddelivery?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: host.docker.internal:9098
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - food-delivery-network
+
+  restaurant-service:
+    build:
+      context: .
+      dockerfile: restaurant-service/Dockerfile
+    container_name: food-delivery-restaurant-service
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/food_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: host.docker.internal:9098
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - food-delivery-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: Food-deli-order_service/Dockerfile
+    container_name: food-delivery-order-service
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/order_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: host.docker.internal:9098
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - food-delivery-network
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: payments-service/payment/demo/Dockerfile
+    container_name: food-delivery-payment-service
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/payment_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      KAFKA_BOOTSTRAP_SERVERS: host.docker.internal:9098
+      EUREKA_DEFAULT_ZONE: http://eureka-server:8761/eureka
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-rzp_test_SEnve6GJT7qxSY}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-G50SM1ZunxD6W2fYVfwEXMus}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - food-delivery-network
+
+  delivery-service:
+    build:
+      context: .
+      dockerfile: delivery-service/Dockerfile
+    container_name: food-delivery-delivery-service
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/delivery_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: host.docker.internal:9098
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - food-delivery-network
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: notification-service/notification/Dockerfile
+    container_name: food-delivery-notification-service
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/notification_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: host.docker.internal:9098
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      JWT_SECRET: ${JWT_SECRET:-c2VjdXJlLWp3dC1zZWNyZXQta2V5LWZvci1mb29kLWRlbGl2ZXJ5LW1pY3Jvc2VydmljZXMtMjAyNg==}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - food-delivery-network
+
+  # ==================== API GATEWAY ====================
+  
+  api-gateway:
+    build:
+      context: ./payments-service/gateway
+      dockerfile: Dockerfile
+    container_name: food-delivery-api-gateway
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "9090:9090"
+    environment:
+      EUREKA_DEFAULT_ZONE: http://eureka-server:8761/eureka
+    networks:
+      - food-delivery-network
+
+networks:
+  food-delivery-network:
+    driver: bridge

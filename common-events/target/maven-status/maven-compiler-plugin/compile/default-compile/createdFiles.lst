@@ -1,0 +1,9 @@
+com\fooddelivery\events\DeliveryEvent.class
+com\fooddelivery\events\BaseEvent.class
+com\fooddelivery\events\OrderEvent.class
+com\fooddelivery\events\PaymentEvent$Builder.class
+com\fooddelivery\events\PaymentEvent.class
+com\fooddelivery\events\KafkaTopics.class
+com\fooddelivery\events\UserEvent.class
+com\fooddelivery\events\OrderEvent$Builder.class
+com\fooddelivery\events\DeliveryEvent$Builder.class
